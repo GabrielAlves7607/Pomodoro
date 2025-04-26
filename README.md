@@ -18,9 +18,3 @@ A interface é dividida em três seções principais:
 - **Cronômetro:** exibe o tempo atual com botões de iniciar, pausar e reiniciar.
 - **Lista de Tarefas:** insira tarefas e remova com um clique.
 
-## 🚀 Como usar
-
-1. Clone ou baixe este repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-
