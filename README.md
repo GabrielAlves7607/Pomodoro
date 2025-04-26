@@ -18,3 +18,4 @@ A interface é dividida em três seções principais:
 - **Cronômetro:** exibe o tempo atual com botões de iniciar, pausar e reiniciar.
 - **Lista de Tarefas:** insira tarefas e remova com um clique.
 
+![image](https://github.com/user-attachments/assets/c159aa45-aee5-4a3d-abce-ad593b273a27)
