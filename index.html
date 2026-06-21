@@ -1,58 +1,434 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cronômetro Pomodoro</title>
-  <button id="btnConfig" class="config-button">⚙️</button>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Pomodoro Timer</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <!-- Video Background -->
+        <video class="bg-video" autoplay muted loop playsinline poster="">
+            <source src="background.mp4" type="video/mp4" />
+        </video>
+        <div class="bg-overlay"></div>
 
-  <div class="container config-container">
+        <div class="app-wrapper">
+            <div class="main-panel">
+                <!-- HEADER -->
+                <header class="header">
+                    <h1 class="logo">Pomodoro</h1>
+                    <div class="header-actions">
+                        <span class="pomodoro-count" id="pomodoroCount"
+                            >0 ☕</span
+                        >
+                        <button
+                            id="btnLayout"
+                            class="icon-btn"
+                            aria-label="Alternar layout"
+                        >
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <rect x="3" y="3" width="7" height="7" />
+                                <rect x="14" y="3" width="7" height="7" />
+                                <rect x="3" y="14" width="7" height="7" />
+                                <rect x="14" y="14" width="7" height="7" />
+                            </svg>
+                        </button>
+                        <button
+                            id="btnConfig"
+                            class="icon-btn"
+                            aria-label="Configurações"
+                        >
+                            <svg
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </header>
 
-    <h2>Configurações</h2>
-  
-    <label for="tempoEstudo">ㅤㅤTempo de Estudo (min):</label>
-    <input type="number" id="tempoEstudo" min="1" step="0.1" value="25" />
-  
-    <label for="tempoPausa">ㅤㅤTempo de Pausa (min):</label>
-    <input type="number" id="tempoPausa" min="1" value="5" />
+                <!-- TIMER CARD -->
+                <main class="card timer-card">
+                    <!-- Mode Selector -->
+                    <div class="mode-selector" id="modeSelector">
+                        <button class="mode-btn active" data-mode="foco">
+                            Foco
+                        </button>
+                        <button class="mode-btn" data-mode="curta">
+                            Curta
+                        </button>
+                        <button class="mode-btn" data-mode="longa">
+                            Longa
+                        </button>
+                    </div>
 
-  </div>
-  
-  <div class="container timer-container">
-    <h1 id="titulo">Pomodoro Timer</h1>
+                    <!-- Circular Progress + Timer -->
+                    <div class="timer-circle" id="timerCircle">
+                        <svg
+                            class="progress-ring"
+                            width="280"
+                            height="280"
+                            viewBox="0 0 280 280"
+                        >
+                            <circle
+                                class="progress-ring-bg"
+                                cx="140"
+                                cy="140"
+                                r="125"
+                            />
+                            <circle
+                                class="progress-ring-fill"
+                                id="progressRing"
+                                cx="140"
+                                cy="140"
+                                r="125"
+                                stroke-dasharray="785.4"
+                                stroke-dashoffset="0"
+                            />
+                        </svg>
+                        <div class="timer-center">
+                            <span class="timer-display" id="timer">25:00</span>
+                            <span class="timer-label" id="timerLabel"
+                                >Foco</span
+                            >
+                        </div>
+                    </div>
 
-    <div class="timer" id="timer">25:00</div>
+                    <!-- Controls -->
+                    <div class="controls">
+                        <button
+                            id="start"
+                            class="ctrl-btn primary"
+                            aria-label="Iniciar"
+                        >
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <polygon points="5,3 19,12 5,21" />
+                            </svg>
+                            Iniciar
+                        </button>
+                        <button
+                            id="pause"
+                            class="ctrl-btn secondary"
+                            aria-label="Pausar"
+                        >
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                            >
+                                <rect x="6" y="4" width="4" height="16" />
+                                <rect x="14" y="4" width="4" height="16" />
+                            </svg>
+                            Pausar
+                        </button>
+                        <button
+                            id="reset"
+                            class="ctrl-btn ghost"
+                            aria-label="Reiniciar"
+                        >
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <polyline points="23 4 23 10 17 10" />
+                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                            </svg>
+                        </button>
+                    </div>
 
-    <div class="buttons">
+                    <!-- Message / Notification -->
+                    <div id="mensagem" class="notification"></div>
 
-      <button id="start">Iniciar</button>
-      <button id="pause">Pausar</button>
-      <button id="reset">Reiniciar</button>
+                    <!-- Drawer toggle (visible only in left mode) -->
+                    <button id="drawerToggle" class="bottom-drawer-toggle">
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        >
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                        <span id="drawerLabel">Abrir</span>
+                    </button>
+                </main>
 
-    </div>
+                <!-- BOTTOM PANELS -->
+                <div class="bottom-panels">
+                    <!-- CONFIG PANEL -->
+                    <div class="card config-card" id="configPanel">
+                        <h2 class="panel-title">Configurações</h2>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <label for="tempoEstudo">Foco (min)</label>
+                                <input
+                                    type="number"
+                                    id="tempoEstudo"
+                                    min="1"
+                                    step="0.1"
+                                    value="25"
+                                />
+                            </div>
+                            <div class="config-item">
+                                <label for="tempoPausa">Curta (min)</label>
+                                <input
+                                    type="number"
+                                    id="tempoPausa"
+                                    min="1"
+                                    value="5"
+                                />
+                            </div>
+                            <div class="config-item">
+                                <label for="tempoLongo">Longa (min)</label>
+                                <input
+                                    type="number"
+                                    id="tempoLongo"
+                                    min="1"
+                                    value="15"
+                                />
+                            </div>
+                        </div>
 
-    <p id="mensagem"></p>
+                        <h3 class="config-subtitle">Cores dos Modos</h3>
+                        <div class="config-colors">
+                            <div class="color-picker">
+                                <label for="corFoco">Foco</label>
+                                <input
+                                    type="color"
+                                    id="corFoco"
+                                    value="#d4957a"
+                                />
+                            </div>
+                            <div class="color-picker">
+                                <label for="corCurta">Curta</label>
+                                <input
+                                    type="color"
+                                    id="corCurta"
+                                    value="#8aaa9a"
+                                />
+                            </div>
+                            <div class="color-picker">
+                                <label for="corLonga">Longa</label>
+                                <input
+                                    type="color"
+                                    id="corLonga"
+                                    value="#9a8ab8"
+                                />
+                            </div>
+                        </div>
 
-  </div>
+                        <h3 class="config-subtitle">Som Ambiente</h3>
+                        <div class="config-ambient">
+                            <button
+                                class="ambient-btn active"
+                                data-ambient="none"
+                            >
+                                Nenhum
+                            </button>
+                            <button class="ambient-btn" data-ambient="white">
+                                Ruído Branco
+                            </button>
+                            <button class="ambient-btn" data-ambient="pink">
+                                Ruído Rosa
+                            </button>
+                            <button class="ambient-btn" data-ambient="brown">
+                                Ruído Marrom (Lowpass 200Hz)
+                            </button>
+                            <button class="ambient-btn" data-ambient="rain">
+                                Chuva (Lowpass 800Hz)
+                            </button>
+                            <button class="ambient-btn" data-ambient="forest">
+                                Floresta (Bandpass 1.2kHz)
+                            </button>
+                            <button class="ambient-btn" data-ambient="hz852">
+                                852Hz (Frequência Solfeggio)
+                            </button>
+                        </div>
+                        <div class="ambient-volume">
+                            <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            >
+                                <polygon
+                                    points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+                                />
+                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                            </svg>
+                            <input
+                                type="range"
+                                id="ambientVolume"
+                                min="0"
+                                max="100"
+                                value="25"
+                            />
+                            <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            >
+                                <polygon
+                                    points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+                                />
+                                <path
+                                    d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+                                />
+                            </svg>
+                        </div>
 
-  <div class="container lista-container">
+                        <button
+                            id="btnAplicarConfig"
+                            class="ctrl-btn primary apply-btn"
+                        >
+                            Aplicar Configurações
+                        </button>
+                    </div>
 
-    <h2>Minha Lista</h2>
-  
-    <div class="lista-form">
+                    <!-- TASK PANEL -->
+                    <div class="card task-card">
+                        <h2 class="panel-title">Tarefas</h2>
+                        <div class="task-progress" id="taskProgress">
+                            <div class="task-progress-bar">
+                                <div
+                                    class="task-progress-fill"
+                                    id="taskProgressFill"
+                                ></div>
+                            </div>
+                            <span
+                                class="task-progress-text"
+                                id="taskProgressText"
+                                >0/0</span
+                            >
+                        </div>
+                        <div class="task-form">
+                            <input
+                                type="text"
+                                id="itemInput"
+                                placeholder="Nova tarefa..."
+                            />
+                            <button
+                                id="addItem"
+                                class="add-btn"
+                                aria-label="Adicionar"
+                            >
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2.5"
+                                    stroke-linecap="round"
+                                >
+                                    <line x1="12" y1="5" x2="12" y2="19" />
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <ul id="listaItens" class="task-list"></ul>
+                    </div>
+                </div>
+                <!-- /bottom-panels -->
 
-      <input type="text" id="itemInput" placeholder="Digite um item..." />
-      <button id="addItem">Adicionar</button>
+                <footer class="footer">
+                    <div class="stats-row" id="statsRow">
+                        <span id="statPomodoros">0 pomodoros</span>
+                        <span class="stat-divider">·</span>
+                        <span id="statFocoHoje">0min focado hoje</span>
+                    </div>
+                    <span id="statusMsg">Pronto para focar 🎯</span>
+                </footer>
+            </div>
+            <!-- /main-panel -->
+        </div>
+        <!-- /app-wrapper -->
 
-    </div>
-  
-    <ul id="listaItens"></ul>
-    
-  </div>
-  
-  <script src="script.js"></script>
-</body>
+        <!-- NOTES PANEL (fixed sidebar) -->
+        <div class="card notes-panel" id="notesPanel">
+            <div class="notes-header">
+                <h2 class="panel-title">Bloco de Notas</h2>
+                <button id="addNote" class="add-btn" aria-label="Nova janela">
+                    <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                    >
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="notes-tabs" id="notesTabs"></div>
+            <textarea
+                class="notes-editor"
+                id="notesEditor"
+                placeholder="Escreva suas anotações aqui..."
+                spellcheck="true"
+            ></textarea>
+        </div>
+
+        <script src="js/state.js"></script>
+        <script src="js/dom.js"></script>
+        <script src="js/timer.js"></script>
+        <script src="js/sound.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/tasks.js"></script>
+        <script src="js/notes.js"></script>
+        <script src="js/main.js"></script>
+    </body>
 </html>
