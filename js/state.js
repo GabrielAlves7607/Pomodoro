@@ -4,9 +4,8 @@
 const CIRCUMFERENCE = 2 * Math.PI * 125; // ~785.4
 
 const MODES = {
-  foco:  { label: 'Foco',        defaultMin: 25, color: '#d4957a' },
-  curta: { label: 'Pausa Curta', defaultMin: 5,  color: '#8aaa9a' },
-  longa: { label: 'Pausa Longa', defaultMin: 15, color: '#9a8ab8' },
+  foco:     { label: 'Foco',     defaultMin: 25, color: '#d4957a' },
+  descanso: { label: 'Descanso', defaultMin: 5,  color: '#8aaa9a' },
 };
 
 const DICAS = [
@@ -25,11 +24,27 @@ const state = {
   isRunning: false,
   isPaused: false,
   intervalId: null,
-  pomodorosCompleted: 0,
+  pomodorosCompleted: loadPomodorosCompleted(),
   soundEnabled: true,
   ambientAudio: null,
   ambientType: 'none',
 };
+
+const POMODOROS_KEY = 'pomodoro_sessions_completed';
+
+function loadPomodorosCompleted() {
+  try {
+    const val = localStorage.getItem(POMODOROS_KEY);
+    const n = parseInt(val, 10);
+    return Number.isFinite(n) && n >= 0 ? n : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function savePomodorosCompleted(val) {
+  localStorage.setItem(POMODOROS_KEY, String(val));
+}
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);

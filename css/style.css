@@ -10,10 +10,8 @@
 :root {
   --foco: #d4957a;
   --foco-glow: rgba(212, 149, 122, 0.25);
-  --curta: #8aaa9a;
-  --curta-glow: rgba(138, 170, 154, 0.25);
-  --longa: #9a8ab8;
-  --longa-glow: rgba(154, 138, 184, 0.25);
+  --descanso: #8aaa9a;
+  --descanso-glow: rgba(138, 170, 154, 0.25);
   --accent: var(--foco);
 
   --glass-bg: rgba(0, 0, 0, 0.55);
@@ -554,8 +552,8 @@ body::before {
 }
 
 .task-item.done .task-check {
-  background: var(--curta);
-  border-color: var(--curta);
+  background: var(--descanso);
+  border-color: var(--descanso);
   color: #fff;
 }
 
@@ -638,7 +636,7 @@ body::before {
 .task-progress-fill {
   height: 100%;
   width: 0%;
-  background: var(--curta);
+  background: var(--descanso);
   border-radius: 4px;
   transition: width 0.4s ease;
 }

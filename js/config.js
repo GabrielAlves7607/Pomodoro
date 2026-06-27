@@ -18,20 +18,17 @@ function saveTheme(colors) {
 function applyTheme(colors) {
   if (!colors) return;
   const root = document.documentElement;
-  if (colors.foco)  root.style.setProperty('--foco', colors.foco);
-  if (colors.curta) root.style.setProperty('--curta', colors.curta);
-  if (colors.longa) root.style.setProperty('--longa', colors.longa);
-  corFoco.value  = colors.foco  || corFoco.value;
-  corCurta.value = colors.curta || corCurta.value;
-  corLonga.value = colors.longa || corLonga.value;
+  if (colors.foco)     root.style.setProperty('--foco', colors.foco);
+  if (colors.descanso) root.style.setProperty('--descanso', colors.descanso);
+  corFoco.value    = colors.foco     || corFoco.value;
+  corCurta.value   = colors.descanso || corCurta.value;
   setTheme(state.mode);
 }
 
 function applyConfig() {
   const colors = {
     foco: corFoco.value,
-    curta: corCurta.value,
-    longa: corLonga.value,
+    descanso: corCurta.value,
   };
   saveTheme(colors);
   applyTheme(colors);

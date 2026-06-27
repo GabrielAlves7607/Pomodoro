@@ -100,11 +100,8 @@
                         <button class="mode-btn active" data-mode="foco">
                             Foco
                         </button>
-                        <button class="mode-btn" data-mode="curta">
-                            Curta
-                        </button>
-                        <button class="mode-btn" data-mode="longa">
-                            Longa
+                        <button class="mode-btn" data-mode="descanso">
+                            Descanso
                         </button>
                     </div>
 
@@ -233,21 +230,12 @@
                                 />
                             </div>
                             <div class="config-item">
-                                <label for="tempoPausa">Curta (min)</label>
+                                <label for="tempoPausa">Descanso (min)</label>
                                 <input
                                     type="number"
                                     id="tempoPausa"
                                     min="1"
                                     value="5"
-                                />
-                            </div>
-                            <div class="config-item">
-                                <label for="tempoLongo">Longa (min)</label>
-                                <input
-                                    type="number"
-                                    id="tempoLongo"
-                                    min="1"
-                                    value="15"
                                 />
                             </div>
                         </div>
@@ -263,19 +251,11 @@
                                 />
                             </div>
                             <div class="color-picker">
-                                <label for="corCurta">Curta</label>
+                                <label for="corCurta">Descanso</label>
                                 <input
                                     type="color"
                                     id="corCurta"
                                     value="#8aaa9a"
-                                />
-                            </div>
-                            <div class="color-picker">
-                                <label for="corLonga">Longa</label>
-                                <input
-                                    type="color"
-                                    id="corLonga"
-                                    value="#9a8ab8"
                                 />
                             </div>
                         </div>
@@ -453,11 +433,11 @@
                 </button>
                 <h2 class="modal-title">Como funciona</h2>
                 <p class="modal-text">
-                    O método Pomodoro alterna blocos de foco com pausas para descanso.
-                    O ciclo é: <strong>foco → pausa curta → foco → pausa curta → foco → pausa curta → foco → pausa longa</strong>, e repete.
+                    O método Pomodoro alterna blocos de <strong>foco</strong> com intervalos de <strong>descanso</strong>.
+                    O ciclo é: <strong>foco → descanso → foco → descanso →</strong> e assim por diante.
                 </p>
                 <p class="modal-text">
-                    Use o <strong>foco</strong> para se concentrar em uma tarefa, a <strong>pausa curta</strong> para descansar alguns minutos, e a <strong>pausa longa</strong> a cada 4 ciclos para uma recarga maior.
+                    Use o <strong>foco</strong> para se concentrar em uma tarefa e o <strong>descanso</strong> para recarregar as energias.
                 </p>
             </div>
         </div>

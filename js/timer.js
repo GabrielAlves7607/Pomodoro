@@ -49,8 +49,7 @@ function updatePomodoroCount() {
 function getModeMinutes() {
   const m = state.mode;
   if (m === 'foco')  return parseFloat(inputEstudo.value) || MODES.foco.defaultMin;
-  if (m === 'curta') return parseFloat(inputPausa.value) || MODES.curta.defaultMin;
-  return parseFloat(inputLongo.value) || MODES.longa.defaultMin;
+  return parseFloat(inputPausa.value) || MODES.descanso.defaultMin;
 }
 
 function stopTimer() {
@@ -132,11 +131,6 @@ function startTimer() {
 function pauseTimer() {
   if (!state.isRunning && !state.isPaused) return;
 
-  if (state.isRunning && state.mode === 'foco') {
-    const elapsed = state.totalTime - state.timeLeft;
-    if (elapsed >= 10) trackFocusSession(elapsed);
-  }
-
   clearInterval(state.intervalId);
   state.intervalId = null;
   state.isRunning = false;
@@ -151,37 +145,24 @@ function pauseTimer() {
    CYCLE COMPLETE
    ============================ */
 function onCycleComplete() {
+  playSound();
+
   if (state.mode === 'foco') {
     state.pomodorosCompleted++;
+    savePomodorosCompleted(state.pomodorosCompleted);
     updatePomodoroCount();
     trackFocusSession(state.totalTime);
     updateStats();
 
-    if (state.soundEnabled) playSound();
-
-    const isLongBreak = state.pomodorosCompleted % 4 === 0;
-    const nextMode = isLongBreak ? 'longa' : 'curta';
     const dica = DICAS[Math.floor(Math.random() * DICAS.length)];
-
     showNotification(`✅ Pomodoro completo! ${dica}`);
-    statusMsg.textContent = isLongBreak
-      ? 'Hora de uma pausa longa! 🎉'
-      : 'Pausa curta! Respire 😊';
+    statusMsg.textContent = 'Hora de descansar! ☕';
 
-    switchMode(nextMode);
-
-    setTimeout(() => {
-      startTimer();
-    }, 800);
+    switchMode('descanso');
   } else {
-    if (state.soundEnabled) playSound();
-    showNotification('⏰ Pausa encerrada! Hora de focar');
+    showNotification('⏰ Descanso encerrado! Hora de focar');
     statusMsg.textContent = 'De volta ao foco! 🎯';
     switchMode('foco');
-
-    setTimeout(() => {
-      startTimer();
-    }, 800);
   }
 }
 
@@ -190,14 +171,6 @@ function onCycleComplete() {
    ============================ */
 function switchMode(mode) {
   if (mode === state.mode) return;
-
-  if (state.mode === 'foco' && state.totalTime > 0 && state.isRunning) {
-    const elapsed = state.totalTime - state.timeLeft;
-    if (elapsed >= 10) {
-      trackFocusSession(elapsed);
-      updateStats();
-    }
-  }
 
   state.mode = mode;
   setTheme(mode);
