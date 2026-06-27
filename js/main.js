@@ -6,6 +6,22 @@ pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
 
 /* ============================
+   INFO MODAL
+   ============================ */
+btnInfo.addEventListener('click', () => infoModal.classList.add('open'));
+btnCloseInfo.addEventListener('click', () => infoModal.classList.remove('open'));
+infoModal.addEventListener('click', (e) => {
+  if (e.target === infoModal) infoModal.classList.remove('open');
+});
+
+/* ============================
+   NOTES TOGGLE
+   ============================ */
+btnNotes.addEventListener('click', () => {
+  notesPanel.classList.toggle('open');
+});
+
+/* ============================
    KEYBOARD SHORTCUTS
    ============================ */
 document.addEventListener('keydown', (e) => {
@@ -23,6 +39,10 @@ document.addEventListener('keydown', (e) => {
   if (e.code === 'KeyR') {
     e.preventDefault();
     resetTimer();
+  }
+
+  if (e.code === 'Escape' && infoModal.classList.contains('open')) {
+    infoModal.classList.remove('open');
   }
 });
 

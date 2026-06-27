@@ -64,14 +64,6 @@ function resetTimer() {
   stopTimer();
   state.isPaused = false;
 
-  if (state.mode === 'foco' && state.totalTime > 0) {
-    const elapsed = state.totalTime - state.timeLeft;
-    if (elapsed >= 10) {
-      trackFocusSession(elapsed);
-      updateStats();
-    }
-  }
-
   const minutes = getModeMinutes();
   state.totalTime = Math.round(minutes * 60);
   state.timeLeft = state.totalTime;
@@ -114,7 +106,9 @@ function startTimer() {
     runInterval();
     startBtn.innerHTML = 'Rodando ⏳';
     pauseBtn.style.display = 'inline-flex';
-    statusMsg.textContent = 'Foco ativo! 🚀';
+    statusMsg.textContent = state.mode === 'foco'
+      ? 'Foco ativo! 🚀'
+      : 'Descansando... ☕';
     return;
   }
 
@@ -195,6 +189,16 @@ function onCycleComplete() {
    MODE SWITCHING
    ============================ */
 function switchMode(mode) {
+  if (mode === state.mode) return;
+
+  if (state.mode === 'foco' && state.totalTime > 0 && state.isRunning) {
+    const elapsed = state.totalTime - state.timeLeft;
+    if (elapsed >= 10) {
+      trackFocusSession(elapsed);
+      updateStats();
+    }
+  }
+
   state.mode = mode;
   setTheme(mode);
   resetTimer();

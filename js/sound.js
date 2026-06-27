@@ -118,7 +118,6 @@ function playAmbient(type) {
         osc.connect(oscGain); oscGain.connect(masterGain);
         osc.start();
         ambientNodes.push(osc, oscGain);
-        src.stop();
         break;
       }
 
